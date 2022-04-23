@@ -8,6 +8,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const rtdb = db.getDatabase(app);
+const rtdb = db.getDatabase();
 
 export {rtdb}

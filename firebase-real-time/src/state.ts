@@ -17,6 +17,7 @@ const state = {
     listeners: [],
 
     init() {
+
         const chatroomsRef = db.ref(rtdb, "/chatrooms/general");
         const currentState = this.getState();
         db.onValue(chatroomsRef, (snapshot) => {
@@ -40,7 +41,7 @@ const state = {
         this.setState(currentState);
     },
 
-    pushMessage(message: string) {
+    pushMessage(messages: string) {
         fetch(API_BASE_URL + "/messages", {
             method: "post",
             headers: {
@@ -48,7 +49,7 @@ const state = {
             },
             body: JSON.stringify({
                 from: this.data.name,
-                message: message,
+                messages: messages,
             }),
         });
     },
