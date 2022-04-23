@@ -1,6 +1,7 @@
 const API_BASE_URL = "http://localhost:3000";
 import * as db from "firebase/database";
 import { rtdb } from "./rtdb";
+import map from "lodash/map";
 
 type Message = {
     from: string;
@@ -9,19 +10,23 @@ type Message = {
 
 const state = {
     data: {
-        nombre: "",
+        name: "",
         messages: [],
     },
 
     listeners: [],
 
     init() {
-        const chatroomsRef = db.ref(rtdb, "/messages/" + data.newId);
-
+        const chatroomsRef = db.ref(rtdb, "/chatrooms/general");
+        const currentState = this.getState();
         db.onValue(chatroomsRef, (snapshot) => {
-            const valor = snapshot.val();
-            document.querySelector(".id").innerHTML = data.newId;
-            document.querySelector(".root").innerHTML = JSON.stringify(valor);
+            const messagesFromServer = snapshot.val();
+            // currentState.messages = messagesFromServer.messages
+            const messagesList = map(messagesFromServer.messages);
+            currentState.messages = messagesList;
+            console.log(messagesList);
+
+            // this.setState(currentState)
         });
     },
 
@@ -29,16 +34,22 @@ const state = {
         return this.data;
     },
 
-    setname(nombre: string) {
+    setName(name: string) {
         const currentState = this.getState();
-        currentState.name = nombre;
+        currentState.name = name;
         this.setState(currentState);
     },
 
-    pushMessage(message: Message) {
+    pushMessage(message: string) {
         fetch(API_BASE_URL + "/messages", {
             method: "post",
-            body: JSON.stringify(message),
+            headers: {
+                "content-type": "aplication/json",
+            },
+            body: JSON.stringify({
+                from: this.data.name,
+                message: message,
+            }),
         });
     },
 

@@ -2,13 +2,13 @@ import { firestore, rtdb } from "./dataBase";
 import * as bodyParser from "body-parser";
 import * as express from "express";
 import { nanoid } from "nanoid";
-import * as cors from "cors"
+import * as cors from "cors";
 const port = 3000;
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors())
+app.use(cors());
 
 const usersCollection = firestore.collection("users");
 
@@ -16,24 +16,29 @@ app.get("/users/", function (req, res) {
     res.json(["todos los usuarios"]);
 });
 
-app.post("/chatrooms/", function (req, res) {
-    const newId = nanoid();
-    const chatroomRef = rtdb.ref("/chatrooms/" + newId);
-    chatroomRef.set(
-        {
-            type: "chatroom",
-        },
-        () => {
-            res.json({
-                newId,
-            });
-        }
-    );
+app.post("/messages/", function (req, res) {
+    const chatRoomRef = rtdb.ref("/chatrooms/general/messages");
+    chatRoomRef.push(req.body, function () {
+        res.json("todo ok");
+    });
+
+    //     const newId = nanoid();
+    //     const chatroomRef = rtdb.ref("/chatrooms/" + newId);
+    //     chatroomRef.set(
+    //         {
+    //             type: "chatroom",
+    //         },
+    //         () => {
+    //             res.json({
+    //                 newId,
+    //             });
+    //         }
+    //     );
 });
 
-app.post("/messages/", function (req, res) {
-    res.json(["todos los usuarios"]);
-});
+// app.post("/messages/", function (req, res) {
+//     res.json(["todos los usuarios"]);
+// });
 
 app.get("/users/:userId", function (req, res) {
     res.json({

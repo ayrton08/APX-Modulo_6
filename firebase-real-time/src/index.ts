@@ -1,6 +1,8 @@
 import "./pages/index"
 import "./pages/chat"
 import "./router"
+import {state} from "./state"
+import { initializeApp } from "firebase/app";
 
 
 const API_BASE_URL = "http://localhost:3000";
@@ -45,6 +47,7 @@ const API_BASE_URL = "http://localhost:3000";
 // }
 
 (function () {
+    state.init()
     // const button = document.querySelector(".conectar");
     // button.addEventListener("click", conectarAlChatroom);
 })();

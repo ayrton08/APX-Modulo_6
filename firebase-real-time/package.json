@@ -6,6 +6,7 @@
   "dependencies": {
     "@vaadin/router": "^1.7.4",
     "firebase": "^9.6.11",
+    "lodash": "^4.17.21",
     "nanoid": "^3.3.3",
     "parcel": "^2.0.0-rc.0"
   },

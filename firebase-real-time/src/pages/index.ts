@@ -1,4 +1,5 @@
 import {Router} from "@vaadin/router"
+import {state} from "../state"
 
 class Home extends HTMLElement {
     connectedCallback() {
@@ -7,7 +8,8 @@ class Home extends HTMLElement {
         form.addEventListener("submit", (event) => {
             event.preventDefault();
             const target = event.target as any;
-            console.log(target.nombre.value);
+            console.log(target.name.value);
+            state.setName(target.name.value)
             Router.go("/chat")
         });
     }
@@ -18,7 +20,7 @@ class Home extends HTMLElement {
             <div>
                 <label>Tu nombre</label>
             </div>
-            <input type="text" name="nombre"/>
+            <input type="text" name="name"/>
             <button>Comenzar</button>
         </form>
         `;
