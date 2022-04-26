@@ -1,5 +1,4 @@
-import { firestore, rtdb } from "./dataBase";
-import * as bodyParser from "body-parser";
+import {  rtdb } from "./dataBase";
 import * as express from "express";
 import { nanoid } from "nanoid";
 import * as cors from "cors";
@@ -7,7 +6,7 @@ const port = 3000;
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
 
 // const usersCollection = firestore.collection("users");
@@ -18,12 +17,13 @@ app.use(cors());
 
 app.post("/messages", function (req, res) {
     const chatRoomRef = rtdb.ref("/chatrooms/general/messages");
-
+    
     chatRoomRef.push(req.body, function () {
-        console.log(req.body);
-
+       
         res.json("todo ok");
     });
+
+
 
     //     const newId = nanoid();
     //     const chatroomRef = rtdb.ref("/chatrooms/" + newId);

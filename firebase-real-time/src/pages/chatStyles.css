@@ -1,0 +1,60 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.messages {
+    
+    padding: 20px;
+    border-radius: 5px;
+    height: auto;
+    max-height: 400px;
+    overflow-y: scroll;
+    
+    font-size: 15px;
+    min-width: 350px;
+    background-color: #D1F2EB;
+}
+
+
+
+.myself {
+    text-align: end;
+}
+
+.my-message {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    background-color: green;
+}
+
+.other-message{
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    background: grey;
+
+}
+.submit-message {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+   
+    
+    min-width: 350px;
+    background-color: #D1F2EB;
+}
+
+input{
+    height: 30px;
+}
+button{
+    height: 30px;
+
+}

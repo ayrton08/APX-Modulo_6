@@ -10,10 +10,9 @@ class ChatPage extends HTMLElement {
             this.messages = currentState.messages;
             this.render();
         });
+
         this.render();
     }
-
-    messages: Message[] = [];
 
     addListeners() {
         const form = this.querySelector(".submit-message");
@@ -21,26 +20,38 @@ class ChatPage extends HTMLElement {
             event.preventDefault();
             const target = event.target as any;
             state.pushMessage(target["new-message"].value);
-            console.log(target["new-message"].value)
         });
     }
 
+    messages: Message[] = [];
     render() {
         this.innerHTML = `
         <div>
         <h1>ChatPage</h1>
             <div class="messages">
-            ${this.messages.map((m) => {
-                return `<div class="message">${m.from}:${m.messages}</div>`;
-            }).join("")}            
+            ${this.messages
+                .map((m) => {
+                    if (m.from === state.data.name) {
+                        return `<div class="myself">
+                        <span >${m.from}:</span><span class="my-message"> ${m.messages}</span>
+                        </div>`;
+                    }
+                    if (m.from !== state.data.name) {
+                        return `<div class="other"><span>${m.from}:</span> <span class="other-message"> ${m.messages}</span></div>`;
+                    }
+                })
+                .join("")}
+                        
             </div>
             <form class="submit-message">
                 <input type="text" name="new-message">
                 <button>Enviar</button>
             </form>
-        </div>
+            </div>
         `;
-        this.addListeners()
+        this.addListeners();
     }
 }
+
+
 customElements.define("chat-page", ChatPage);

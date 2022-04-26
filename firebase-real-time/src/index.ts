@@ -48,6 +48,7 @@ import { initializeApp } from "firebase/app";
 
 (function () {
     state.init()
+    
     // const button = document.querySelector(".conectar");
     // button.addEventListener("click", conectarAlChatroom);
 })();
