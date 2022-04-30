@@ -9,9 +9,11 @@
     "express": "^4.18.1",
     "firebase": "^9.6.11",
     "firebase-admin": "^10.0.2",
-    "nanoid": "^3.3.3"
+    "nanoid": "^3.3.3",
+    "parcel": "^2.5.0"
   },
   "scripts": {
-    "dev": "nodemon index.ts"
+    "devback": "nodemon index.ts",
+    "devfront":"parcel serve ./src/index.html"
   }
 }

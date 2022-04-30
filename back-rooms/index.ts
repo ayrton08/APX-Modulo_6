@@ -18,6 +18,7 @@ app.post("/prueba", (req, res) => {
 });
 
 const userCollection = firestore.collection("users");
+const roomsCollection = firestore.collection("rooms");
 
 app.post("/signup", (req, res) => {
     const email = req.body.email;
@@ -72,20 +73,52 @@ app.post("/rooms", (req, res) => {
         .get()
         .then((doc) => {
             if (doc.exists) {
-                rtdb.ref("rooms/" + nanoid()).set({
-                    messages:[],
-                    owner:userId
-                }).then(rtdbRes=>{
-                    res.json({
-                        id:rtdbRes
+                const roomRef = rtdb.ref("rooms/" + nanoid());
+                roomRef
+                    .set({
+                        messages: [],
+                        owner: userId,
                     })
-                });
+                    .then(() => {
+                        const roomLongId = roomRef.key;
+                        const roomId = 1000 + Math.floor(Math.random() * 999);
+                        roomsCollection
+                            .doc(roomId.toString())
+                            .set({
+                                rtdbRoomId: roomLongId,
+                            })
+                            .then(() => {
+                                res.json({
+                                    id: roomId.toString(),
+                                });
+                            });
+                    });
             } else {
                 res.status(401).json({
-                    message:"no existis"
-                })
+                    message: "no existis",
+                });
             }
         });
 });
 
-app.get("/room/:id", () => {});
+app.get("/room/:roomId", (req, res) => {
+    const { userId } = req.query;
+    const { roomId } = req.params;
+    
+    userCollection
+        .doc(userId.toString())
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                roomsCollection.doc(roomId).get().then((snap)=>{
+                    const data = snap.data()
+                    res.json(data)
+                })
+            } else {
+                res.status(401).json({
+                    message: "no existis",
+                });
+            }
+        });
+    
+});
